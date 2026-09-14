@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloud Phone — Seu celular na nuvem</title>
+  <meta name="description" content="Cloud Phone: acesse um celular Android pela nuvem, direto do seu navegador, de qualquer lugar." />
+
+  <!-- Tipografia -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Ícone da aba -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text y=%2218%22 font-size=%2218%22>☁️</text></svg>" />
+</head>
+<body>
+
+  <!-- =============================
+       CABEÇALHO / NAVEGAÇÃO
+  ============================== -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+
+      <!-- Logo -->
+      <a href="#topo" class="logo" aria-label="Cloud Phone — página inicial">
+        <span class="logo__icon" aria-hidden="true">
+          <svg viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg">
+            <path d="M46 30H16c-7.7 0-14-6.3-14-14S8.3 2 16 2c1.9 0 3.7.4 5.3 1.1C24.1 1.1 27.5 0 31 0c9.5 0 17.3 7.2 18 16.4 6 1.1 10.5 6.3 10.5 12.6 0 .3 0 .7-.1 1H46z" />
+          </svg>
+        </span>
+        <span class="logo__text">Cloud<strong>Phone</strong></span>
+      </a>
+
+      <!-- Menu de navegação (desktop) -->
+      <nav class="nav" id="nav">
+        <a href="#topo" class="nav__link">Início</a>
+        <a href="#como-funciona" class="nav__link">Como funciona</a>
+        <a href="#vantagens" class="nav__link">Vantagens</a>
+        <a href="#comece-agora" class="nav__link">Login</a>
+      </nav>
+
+      <div class="header__actions">
+        <a href="#comece-agora" class="btn btn--outline">Entrar</a>
+
+        <!-- Botão hambúrguer (mobile) -->
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main id="topo">
+
+    <!-- =============================
+         HERO
+    ============================== -->
+    <section class="hero">
+      <div class="hero__glow" aria-hidden="true"></div>
+
+      <div class="container hero__inner">
+
+        <div class="hero__content">
+          <span class="eyebrow">Android na nuvem, sem hardware</span>
+          <h1 class="hero__title">Seu celular.<br />Na nuvem.</h1>
+          <p class="hero__text">
+            O Cloud Phone permite que você use um celular Android diretamente
+            pela nuvem, sem precisar de um aparelho físico. Acesse seu Cloud
+            Phone de qualquer lugar pelo navegador.
+          </p>
+
+          <div class="hero__cta">
+            <a href="#comece-agora" class="btn btn--primary" id="ctaComecarAgora">
+              Começar agora <span class="btn__arrow">→</span>
+            </a>
+            <a href="#como-funciona" class="btn btn--ghost">Ver como funciona</a>
+          </div>
+
+          <div class="hero__stats">
+            <div class="stat">
+              <span class="stat__value">100%</span>
+              <span class="stat__label">Baseado no navegador</span>
+            </div>
+            <div class="stat">
+              <span class="stat__value">0</span>
+              <span class="stat__label">Aparelhos físicos necessários</span>
+            </div>
+            <div class="stat">
+              <span class="stat__value">24/7</span>
+              <span class="stat__label">Disponível na nuvem</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ilustração: smartphone conectado à nuvem -->
+        <div class="hero__visual" aria-hidden="true">
+          <div class="device-scene">
+
+            <!-- Nuvem com brilho neon -->
+            <svg class="scene__cloud" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+              <path d="M150 95H55c-24 0-43-19-43-43S31 9 55 9c6 0 11.8 1.3 17 3.6C79.7 4.9 90 0 101.5 0 124 0 142.5 17 145 39c19 2 33 18 33 37.5 0 .8 0 1.7-.1 2.5H150z"/>
+            </svg>
+
+            <!-- Linhas de conexão pulsante -->
+            <svg class="scene__link" viewBox="0 0 40 120" xmlns="http://www.w3.org/2000/svg">
+              <line x1="20" y1="0" x2="20" y2="120" />
+            </svg>
+
+            <!-- Smartphone -->
+            <div class="scene__phone">
+              <div class="phone__notch"></div>
+              <div class="phone__screen">
+                <div class="phone__row phone__row--1"></div>
+                <div class="phone__row phone__row--2"></div>
+                <div class="phone__grid">
+                  <span></span><span></span><span></span>
+                  <span></span><span></span><span></span>
+                </div>
+                <div class="phone__signal">
+                  <span class="dot dot--on"></span>
+                  <span class="dot dot--on"></span>
+                  <span class="dot"></span>
+                </div>
+              </div>
+              <div class="phone__home"></div>
+            </div>
+
+            <!-- Partículas flutuantes -->
+            <span class="particle p1"></span>
+            <span class="particle p2"></span>
+            <span class="particle p3"></span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =============================
+         COMO FUNCIONA
+    ============================== -->
+    <section class="section" id="como-funciona">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="section__title">Como funciona</h2>
+          <p class="section__subtitle">Três passos entre você e o seu Android na nuvem.</p>
+        </div>
+
+        <div class="steps">
+          <article class="step">
+            <span class="step__number">01</span>
+            <h3 class="step__title">Crie sua conta</h3>
+            <p class="step__text">Cadastre-se para começar a usar seu Cloud Phone.</p>
+          </article>
+
+          <div class="step__connector" aria-hidden="true"></div>
+
+          <article class="step">
+            <span class="step__number">02</span>
+            <h3 class="step__title">Conecte-se</h3>
+            <p class="step__text">Acesse seu dispositivo virtual diretamente pelo navegador.</p>
+          </article>
+
+          <div class="step__connector" aria-hidden="true"></div>
+
+          <article class="step">
+            <span class="step__number">03</span>
+            <h3 class="step__title">Use na nuvem</h3>
+            <p class="step__text">Seu Android fica disponível para você de onde estiver.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================
+         VANTAGENS
+    ============================== -->
+    <section class="section section--alt" id="vantagens">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="section__title">Vantagens</h2>
+          <p class="section__subtitle">Feito para ser leve, disponível e simples de acessar.</p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="card__icon">⚡</div>
+            <h3 class="card__title">Rápido</h3>
+            <p class="card__text">Tenha uma experiência rápida e estável.</p>
+          </article>
+
+          <article class="card">
+            <div class="card__icon">☁️</div>
+            <h3 class="card__title">Na nuvem</h3>
+            <p class="card__text">Seu celular fica hospedado na nuvem.</p>
+          </article>
+
+          <article class="card">
+            <div class="card__icon">📱</div>
+            <h3 class="card__title">Acesso pelo navegador</h3>
+            <p class="card__text">Use seu Cloud Phone diretamente pelo navegador.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================
+         LOGIN / CADASTRO
+    ============================== -->
+    <section class="section auth" id="comece-agora">
+      <div class="hero__glow hero__glow--bottom" aria-hidden="true"></div>
+
+      <div class="container auth__inner">
+
+        <div class="auth__intro">
+          <span class="eyebrow">Comece agora</span>
+          <h2 class="auth__title">Entre e conecte seu Cloud Phone</h2>
+          <p class="auth__text">
+            Esta é uma demonstração de interface. Nenhum dado é enviado a um
+            servidor — o login abaixo é apenas ilustrativo.
+          </p>
+        </div>
+
+        <form class="auth__card" id="loginForm" novalidate>
+          <div class="field">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" placeholder="voce@exemplo.com" autocomplete="email" />
+            <span class="field__error" id="emailError"></span>
+          </div>
+
+          <div class="field">
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" placeholder="••••••••" autocomplete="current-password" />
+            <span class="field__error" id="senhaError"></span>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--block">
+            Entrar na minha conta
+          </button>
+
+          <div class="auth__links">
+            <a href="#" class="auth__link" id="linkCriarConta">Criar uma conta</a>
+            <a href="#" class="auth__link" id="linkEsqueciSenha">Esqueci minha senha</a>
+          </div>
+
+          <p class="auth__feedback" id="formFeedback" role="status" aria-live="polite"></p>
+        </form>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =============================
+       RODAPÉ
+  ============================== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p class="footer__copy">© 2026 Cloud Phone</p>
+      <nav class="footer__links">
+        <a href="#" class="footer__link">Termos</a>
+        <a href="#" class="footer__link">Privacidade</a>
+        <a href="#" class="footer__link">Suporte</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Script -->
+  <script src="script.js"></script>
+</body>
+</html>
