@@ -4,8 +4,10 @@
    Responsável por:
    1. Menu responsivo (abrir/fechar no celular)
    2. Rolagem suave ao clicar nos links do menu
-   3. Validação básica do formulário de login (demonstração)
-   4. Links "Criar uma conta" e "Esqueci minha senha" (demonstração)
+   3. Autenticação real com Firebase (login e cadastro)
+   4. Links "Criar uma conta" e "Esqueci minha senha"
+   5. Botão "Sair da conta"
+   6. Sombra no cabeçalho ao rolar a página
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -56,10 +58,9 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   /* -----------------------------------------
-     3. VALIDAÇÃO DO FORMULÁRIO DE LOGIN
-     Isto é apenas uma DEMONSTRAÇÃO de interface.
-     Não existe autenticação real: nenhum dado
-     é enviado a um servidor.
+     3. AUTENTICAÇÃO REAL COM FIREBASE
+     Login e cadastro de verdade, usando o
+     Firebase Authentication (e-mail/senha).
   ------------------------------------------ */
   const loginForm = document.getElementById("loginForm");
   const emailInput = document.getElementById("email");
@@ -67,9 +68,20 @@ document.addEventListener("DOMContentLoaded", function () {
   const emailError = document.getElementById("emailError");
   const senhaError = document.getElementById("senhaError");
   const formFeedback = document.getElementById("formFeedback");
+  const authFormTitle = document.getElementById("authFormTitle");
+  const authSubmitBtn = document.getElementById("authSubmitBtn");
+  const linkCriarConta = document.getElementById("linkCriarConta");
+  const linkEsqueciSenha = document.getElementById("linkEsqueciSenha");
+  const authLoggedPanel = document.getElementById("authLoggedPanel");
+  const loggedEmail = document.getElementById("loggedEmail");
+  const logoutBtn = document.getElementById("logoutBtn");
 
   // Expressão simples para validar formato de e-mail
   const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // "login" = entrar em uma conta já existente
+  // "cadastro" = criar uma conta nova
+  let modoAtual = "login";
 
   function setFieldError(inputEl, errorEl, message) {
     if (message) {
@@ -115,6 +127,67 @@ document.addEventListener("DOMContentLoaded", function () {
   if (emailInput) emailInput.addEventListener("blur", validateEmail);
   if (senhaInput) senhaInput.addEventListener("blur", validateSenha);
 
+  // Alterna a aparência do formulário entre "Entrar" e "Criar conta"
+  function alternarModo(novoModo) {
+    modoAtual = novoModo;
+    formFeedback.textContent = "";
+
+    if (modoAtual === "cadastro") {
+      authFormTitle.textContent = "Criar uma conta";
+      authSubmitBtn.textContent = "Criar minha conta";
+      linkCriarConta.textContent = "Já tenho conta — Entrar";
+    } else {
+      authFormTitle.textContent = "Entrar na conta";
+      authSubmitBtn.textContent = "Entrar na minha conta";
+      linkCriarConta.textContent = "Criar uma conta";
+    }
+  }
+
+  // Traduz os códigos de erro do Firebase para mensagens amigáveis
+  function traduzirErroFirebase(erro) {
+    switch (erro.code) {
+      case "auth/invalid-email":
+        return "Esse e-mail não parece válido.";
+      case "auth/user-not-found":
+        return "Não encontramos uma conta com esse e-mail.";
+      case "auth/wrong-password":
+      case "auth/invalid-credential":
+        return "E-mail ou senha incorretos.";
+      case "auth/email-already-in-use":
+        return "Já existe uma conta com esse e-mail. Tente entrar.";
+      case "auth/weak-password":
+        return "Escolha uma senha com pelo menos 6 caracteres.";
+      case "auth/too-many-requests":
+        return "Muitas tentativas seguidas. Aguarde um pouco e tente de novo.";
+      default:
+        return "Não foi possível concluir. Tente novamente em instantes.";
+    }
+  }
+
+  // Mostra o painel de "logado" e esconde o formulário
+  function mostrarUsuarioLogado(user) {
+    loginForm.hidden = true;
+    authLoggedPanel.hidden = false;
+    loggedEmail.textContent = user.email;
+  }
+
+  // Mostra o formulário de login/cadastro e esconde o painel de logado
+  function mostrarFormulario() {
+    authLoggedPanel.hidden = true;
+    loginForm.hidden = false;
+  }
+
+  // Fica de olho no estado de login (persiste ao recarregar a página)
+  if (window.firebase && firebase.auth) {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        mostrarUsuarioLogado(user);
+      } else {
+        mostrarFormulario();
+      }
+    });
+  }
+
   if (loginForm) {
     loginForm.addEventListener("submit", function (event) {
       event.preventDefault();
@@ -122,42 +195,82 @@ document.addEventListener("DOMContentLoaded", function () {
       const isEmailValid = validateEmail();
       const isSenhaValid = validateSenha();
 
-      if (isEmailValid && isSenhaValid) {
-        // Demonstração apenas: não há autenticação real.
-        formFeedback.textContent =
-          "Tudo certo! Esta é apenas uma demonstração — em breve você poderá acessar seu Cloud Phone de verdade. ☁️";
-        loginForm.reset();
-      } else {
+      if (!isEmailValid || !isSenhaValid) {
         formFeedback.textContent = "Verifique os campos destacados antes de continuar.";
+        return;
       }
+
+      const email = emailInput.value.trim();
+      const senha = senhaInput.value;
+
+      authSubmitBtn.disabled = true;
+      formFeedback.textContent = "Só um instante...";
+
+      const acao =
+        modoAtual === "cadastro"
+          ? firebase.auth().createUserWithEmailAndPassword(email, senha)
+          : firebase.auth().signInWithEmailAndPassword(email, senha);
+
+      acao
+        .then(function (credencial) {
+          formFeedback.textContent = "";
+          loginForm.reset();
+          mostrarUsuarioLogado(credencial.user);
+        })
+        .catch(function (erro) {
+          formFeedback.textContent = traduzirErroFirebase(erro);
+        })
+        .finally(function () {
+          authSubmitBtn.disabled = false;
+        });
     });
   }
 
   /* -----------------------------------------
-     4. LINKS "CRIAR CONTA" E "ESQUECI SENHA"
-     Também apenas demonstrativos por enquanto.
+     4. LINKS "CRIAR CONTA" / "ENTRAR" E
+     "ESQUECI MINHA SENHA"
   ------------------------------------------ */
-  const linkCriarConta = document.getElementById("linkCriarConta");
-  const linkEsqueciSenha = document.getElementById("linkEsqueciSenha");
-
   if (linkCriarConta) {
     linkCriarConta.addEventListener("click", function (event) {
       event.preventDefault();
-      formFeedback.textContent =
-        "O cadastro de novas contas chega em breve. Fique de olho! 🚀";
+      alternarModo(modoAtual === "cadastro" ? "login" : "cadastro");
     });
   }
 
   if (linkEsqueciSenha) {
     linkEsqueciSenha.addEventListener("click", function (event) {
       event.preventDefault();
-      formFeedback.textContent =
-        "A recuperação de senha ainda não está disponível nesta demonstração.";
+      const email = emailInput.value.trim();
+
+      if (!EMAIL_REGEX.test(email)) {
+        formFeedback.textContent = "Digite seu e-mail no campo acima primeiro, depois clique aqui de novo.";
+        emailInput.focus();
+        return;
+      }
+
+      firebase
+        .auth()
+        .sendPasswordResetEmail(email)
+        .then(function () {
+          formFeedback.textContent = "Enviamos um e-mail para você redefinir sua senha. ✉️";
+        })
+        .catch(function (erro) {
+          formFeedback.textContent = traduzirErroFirebase(erro);
+        });
     });
   }
 
   /* -----------------------------------------
-     5. CABEÇALHO: leve sombra ao rolar a página
+     5. BOTÃO "SAIR DA CONTA"
+  ------------------------------------------ */
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", function () {
+      firebase.auth().signOut();
+    });
+  }
+
+  /* -----------------------------------------
+     6. CABEÇALHO: leve sombra ao rolar a página
   ------------------------------------------ */
   const header = document.getElementById("header");
   if (header) {
